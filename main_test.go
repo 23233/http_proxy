@@ -1,15 +1,18 @@
 package main
 
 import (
-	"io/ioutil"
+	"fmt"
 	"net/http"
 	"net/url"
 	"testing"
 )
 
-func TestProxy(t *testing.T) {
+func testSinge(t *testing.T, domain string) {
 	// 设置代理服务器的 URL 本机即可
-	proxyURL, err := url.Parse("http://proxy:aaaa1111@localhost:8080")
+	port := 8080
+	//port := 10510
+	fullProxy := fmt.Sprintf("http://proxy:aaaa1111@%s:%d", domain, port)
+	proxyURL, err := url.Parse(fullProxy)
 	if err != nil {
 		t.Fatalf("Failed to parse proxy URL: %v", err)
 	}
@@ -27,12 +30,9 @@ func TestProxy(t *testing.T) {
 		t.Fatalf("Failed to make request through proxy: %v", err)
 	}
 	defer resp.Body.Close()
+	t.Logf("%s测试成功", domain)
+}
 
-	// 读取响应内容
-	body, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		t.Fatalf("Failed to read response body: %v", err)
-	}
-
-	t.Logf("Received response: %s", string(body))
+func TestProxy(t *testing.T) {
+	testSinge(t, "localhost")
 }
