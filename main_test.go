@@ -8,7 +8,7 @@ import (
 )
 
 func TestProxy(t *testing.T) {
-	// 设置代理服务器的 URL
+	// 设置代理服务器的 URL 本机即可
 	proxyURL, err := url.Parse("http://proxy:aaaa1111@localhost:8080")
 	if err != nil {
 		t.Fatalf("Failed to parse proxy URL: %v", err)
